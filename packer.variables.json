@@ -1,0 +1,13 @@
+{
+    "subscription_id": "a707a804-687c-4e3f-bf17-c5c8e41de678",
+    "tenant_id": "6db80314-c906-4d95-8ca7-2fdc2499ee59",
+    "client_id": "3412bb5d-95a8-44ac-a80b-873949a700a9",
+    "client_secret": "a2b786d6-f0ae-4911-9d75-69ac539b1624",
+    "managed_image_prefix": "vmssdemo",
+    "managed_image_resource_group_name": "rg-blog",
+    "build_resource_group_name": "rg-blog",
+    "ssh_username": "packer",
+    "ssh_password": "kDWHMuMB8g9+tY9vzUh5",
+    "ApplicationArtifacts": "artifacts",
+    "WorkingDirectory": "D:\\Dominique\\Documents\\Blog\\Posts data\\VMSS"
+}

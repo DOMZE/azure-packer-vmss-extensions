@@ -1,0 +1,57 @@
+{
+    "variables": {
+        "client_id": "",
+        "client_secret": "",
+        "subscription_id": "",
+        "tenant_id": "",
+        "managed_image_prefix": "",
+        "managed_image_resource_group_name": "",
+        "build_resource_group_name": "",
+        "ssh_username": "packer",
+        "ssh_password": "",
+        "ApplicationArtifacts": "",
+        "WorkingDirectory": ""
+    },
+    "sensitive-variables": ["client_secret"],
+    "builders": [
+        {
+            "type": "azure-arm",
+            "client_id": "{{user `client_id`}}",
+            "client_secret": "{{user `client_secret`}}",
+            "tenant_id": "{{user `tenant_id`}}",
+            "subscription_id": "{{user `subscription_id`}}",
+            "build_resource_group_name": "{{user `build_resource_group_name`}}",
+            "ssh_username": "{{user `ssh_username`}}",
+            "ssh_password": "{{user `ssh_password`}}",
+            "ssh_pty": "true",
+            "managed_image_name": "{{user `managed_image_prefix`}}-{{timestamp}}",
+            "managed_image_resource_group_name": "{{user `managed_image_resource_group_name`}}",
+            "os_type": "Linux",
+            "image_publisher": "Canonical",
+            "image_offer": "UbuntuServer",
+            "image_sku": "18.04-LTS",
+            "vm_size": "Standard_DS2_v2"
+        }
+    ],
+    "provisioners": [
+        {
+            "type": "file",
+            "source": "{{user `WorkingDirectory`}}/{{user `ApplicationArtifacts`}}",
+            "destination": "/tmp"
+        },
+        {
+            "type": "shell",
+            "execute_command": "echo '{{user `ssh_pass`}}' | {{ .Vars }} sudo -S -E sh '{{ .Path }}'",
+            "script": "{{user `WorkingDirectory`}}/setup.sh"
+        },
+        {
+            "execute_command": "echo '{{user `ssh_pass`}}' | {{ .Vars }} sudo -S -E sh '{{ .Path }}'",
+            "inline": [
+              "/usr/sbin/waagent -force -deprovision+user && export HISTSIZE=0 && sync"
+            ],
+            "inline_shebang": "/bin/sh -x",
+            "type": "shell",
+            "skip_clean": true
+         }
+    ]
+}

@@ -1,0 +1,52 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "vmssName": {
+            "type": "string",
+            "metadata": {
+                    "description": "The VMSS resource name"
+            }
+        },
+        "vmssCustomScriptArtifactsLocation": {
+            "type": "string",
+            "metadata": {
+                "description": "The full location of the provisioning script. This must be in a storage account that can be accessed by the vmss."
+            }            
+        },
+        "artifactsLocation": {
+            "type": "string",
+            "metadata": {
+                "description": "The full location of the artifacts file. This must be in a storage account that can be accessed by the vmss."
+            }
+        }        
+    },
+    "variables": {
+        "location": "[resourceGroup().location]",
+        "artifactsStorageContainerName": "provisioning"
+    },
+    "resources": [
+        {
+            "type": "Microsoft.Compute/virtualMachineScaleSets/extensions",
+            "name": "[concat(parameters('vmssName'),'/',variables('artifactsStorageContainerName'))]",
+            "apiVersion": "2019-03-01",
+            "location": "[variables('location')]",
+            "properties": {
+                "publisher": "Microsoft.Azure.Extensions",
+                "type": "CustomScript",
+                "typeHandlerVersion": "2.1",
+                "autoUpgradeMinorVersion": true,
+                "settings": {
+                    "skipDos2Unix": false         
+                },
+                "protectedSettings": {
+                    "commandToExecute": "[concat('sudo sh postprovisioning.sh ', '\"', parameters('artifactsLocation'),'\"')]",
+                    "fileUris": ["[parameters('vmssCustomScriptArtifactsLocation')]"],
+                    "managedIdentity": {}                    
+                }
+            }
+        }        
+    ],
+    "outputs": {},
+    "functions": []
+}

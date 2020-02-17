@@ -1,0 +1,15 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "vmssName": {
+            "value": "GEN-VMSSNAME"
+        },
+        "vmssCustomScriptArtifactsLocation": {
+            "value": "https://{storage-account-name}.blob.core.windows.net/provisioning/postprovisioning.sh"
+        },
+        "artifactsLocation": {
+            "value": "https://{storage-account-name}.blob.core.windows.net/provisioning/helloworld.20200216-002.txt"
+        }
+    }
+}

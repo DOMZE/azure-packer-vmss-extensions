@@ -1,0 +1,24 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "customImageId": {
+           "value": "/subscriptions/{subscriptionID}/resourceGroups/{myResourceGroup}/providers/Microsoft.Compute/images/{myNewImage}"
+        },
+        "artifactsStorageName": {
+            "value": "GEN-STR-NAME"
+        },
+        "administratorLogin": {
+            "value": "GEN-UNIQUE"
+        }
+        // uncomment to use the keyvault and comment out the parameter in the PowerShell script
+        // ,"administratorSSHKey": {
+        //     "reference": {
+        //         "keyVault": {
+        //             "id": ""
+        //         },
+        //         "secretName": ""
+        //     }
+        // }
+    }
+}
